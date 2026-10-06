@@ -373,3 +373,40 @@ diamonds |>
   summarise(n(), .by=c(cut, color)) |>
   slice(1:5) ## first five rows
 ```
+
+# Operating on columns
+
+## Introduction to `mutate`
+
+The `mutate` verb is used to create new columns (or to modify existing ones)
+based on calculation conducted on existing columns. Generic form:
+
+```{r}
+#| echo: true
+#| eval: false
+mutate(dataframe, newcolumn = expression)
+```
+
+
+```{r}
+#| echo: true
+diamonds_ppc <- diamonds |>
+  mutate("price per carat" = price/carat)
+```
+
+## Application example
+
+```{r}
+diamonds_ppc |>
+  summarise(median(`price per carat`), .by=cut) |>
+  arrange(cut)
+```
+
+## Application example (graphical)
+
+```{r}
+diamonds_ppc |>
+  ggplot(aes(x=`price per carat`, colour = cut)) +
+  geom_density(bw="sj", linewidth = 1, alpha = 0.75)
+```
+
